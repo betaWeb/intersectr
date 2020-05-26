@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Intersectr</title>
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+		html, body {
+			margin: 0;
+			padding: 0;
+			font-family: sans-serif;
+		}
+
+		.container {
+			overflow-y: auto;
+		}
+
+		.section {
+			display: flex;
+			width: 100%;
+			height: 500px;
+			border-bottom: 4px solid #222;
+			align-items: center;
+			justify-content: center;
+			transition: .3s;
+		}
+
+		.section h2 {
+			color: #fff;
+			font-size: 2.5rem;
+		}
+
+		.section-1 {
+			background-color: #4CB142;
+		}
+		.section-2 {
+			background-color: #9100FF;
+		}
+		.section-3 {
+			background-color: #17B8D3;
+		}
+		.section-4 {
+			background-color: #E4B2A5;
+		}
+		.section-5 {
+			background-color: #036BF3;
+		}
+		.section-6 {
+			background-color: #558239;
+		}
+		.section-7 {
+			background-color: #E9794A;
+		}
+		.section-8 {
+			background-color: #DE71C9;
+		}
+	</style>
+	<script type="text/javascript" src="../src/Intersectr.js" defer></script>
+	<script type="text/javascript" defer>
+		document.addEventListener('DOMContentLoaded', _ => {
+			const intersectr = new Intersectr()
+
+			document.querySelectorAll('.section').forEach(section => {
+				intersectr.intersectFrom(section, 0.7, (intersecting, entry) => {
+					if (intersecting) {
+						entry.target.style.opacity = 1
+						intersectr.unobserve(section)
+					} else entry.target.style.opacity = 0.5
+				})
+			})
+		})
+	</script>
+</head>
+<body>
+	<main id="container" class="container">
+		<section id="section-1" class="section section-1">
+			<h2>Section #1</h2>
+		</section>
+		<section id="section-2" class="section section-2">
+			<h2>Section #2</h2>
+		</section>
+		<section id="section-3" class="section section-3">
+			<h2>Section #3</h2>
+		</section>
+		<section id="section-4" class="section section-4">
+			<h2>Section #4</h2>
+		</section>
+		<section id="section-5" class="section section-5">
+			<h2>Section #5</h2>
+		</section>
+		<section id="section-6" class="section section-6">
+			<h2>Section #6</h2>
+		</section>
+		<section id="section-7" class="section section-7">
+			<h2>Section #7</h2>
+		</section>
+		<section id="section-8" class="section section-8">
+			<h2>Section #8</h2>
+		</section>
+	</main>
+</body>
+</html>
