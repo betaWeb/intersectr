@@ -11,11 +11,12 @@
     "url": "git+https://github.com/betaWeb/intersectr.git"
   },
   "keywords": [
+    "intersection-observer",
     "intersection",
     "observer",
-    "intersection",
-    "observer",
+    "observer-pattern",
     "easy",
+    "easy-to-use",
     "javascript",
     "class",
     "fluent",
