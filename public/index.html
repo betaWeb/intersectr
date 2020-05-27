@@ -9,26 +9,66 @@
 			box-sizing: border-box;
 		}
 
-		html, body {
+		.actions {
+			position: fixed;
+			display: flex;
+			flex-direction: column;
+			top: 20px;
+			right: 20px;
+			z-index: 10;
+		}
+
+		.actions button {
+			display: block;
+			border: none;
+			width: 100%;
+			padding: 7px 25px;
+			margin: 2px 0;
+			background-color: rgb(37, 41, 48);
+			color: #fff;
+			font-size: 1rem;
+			font-weight: bold;
+			box-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+			cursor: pointer;
+			transition: .3s;
+			border-radius: 3px;
+		}
+
+		.actions button:hover {
+			opacity: .9;
+		}
+
+		body {
 			margin: 0;
 			padding: 0;
 			font-family: sans-serif;
 			background-color: #222;
 		}
 
-		.container {
-			overflow-y: auto;
+		.horizontal-layout {
+			overflow-y: hidden;
+		}
+
+		.horizontal-layout .container {
+			display: flex;
+			width: 800vw;
+			height: 100vh;
+			flex-direction: row;
+		}
+		
+		.horizontal-layout .section {
+			width: 100vw;
 		}
 
 		.section {
 			display: flex;
 			width: 100%;
-			height: 500px;
+			height: 100vh;
 			margin-bottom: 4px;
 			align-items: center;
 			justify-content: center;
-			opacity: 0.5;
-			transform: scale(.5);
+			opacity: 0;
+			transform: scale(.25);
 			transition: .3s;
 		}
 
@@ -70,20 +110,48 @@
 	<script type="text/javascript" src="../src/Intersectr.js" defer></script>
 	<script type="text/javascript" defer>
 		document.addEventListener('DOMContentLoaded', _ => {
-			const intersectr = new Intersectr()
+			// Variables
+			let intersectr = new Intersectr()
+			let sections = document.querySelectorAll('.section')
 
-			document.querySelectorAll('.section').forEach(section => {
-				intersectr.intersectFrom(section, .5, (intersecting, entry) => {
-					if (intersecting || entry.intersected) {
-						entry.target.classList.add('intersected')
-						entry.unobserve()
-					}
+			// Functions
+			const observeSections = _ => {
+				sections.forEach(section => {
+					intersectr.intersectFrom(section, .5, (intersecting, entry) => {
+						if (intersecting) {
+							entry.target.classList.add('intersected')
+							entry.unobserve()
+						}
+					})
 				})
+			}
+			const refresh = _ => {
+				sections.forEach(section => section.classList.remove('intersected'))
+				intersectr.refresh()
+			}
+
+			// Events
+			document.getElementById('btn-refresh').addEventListener('click', e => {
+				e.preventDefault()
+				refresh()
 			})
+
+			document.getElementById('btn-switch').addEventListener('click', e => {
+				e.preventDefault()
+				document.body.classList.toggle('horizontal-layout')
+				refresh()
+			})
+			
+			// Calls
+			observeSections()
 		})
 	</script>
 </head>
 <body>
+	<div class="actions">
+		<button id="btn-switch">Switch layout</button>
+		<button id="btn-refresh">Refresh</button>
+	</div>
 	<main id="container" class="container">
 		<section id="section-1" class="section section-1">
 			<h2>Section #1</h2>

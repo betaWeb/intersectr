@@ -1,0 +1,32 @@
+{
+  "name": "intersectr",
+  "version": "1.0.0",
+  "description": "An esay-to-use wrapper class over intersection observer API.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/betaWeb/intersectr.git"
+  },
+  "keywords": [
+    "intersection",
+    "observer",
+    "intersection",
+    "observer",
+    "easy",
+    "javascript",
+    "class",
+    "fluent",
+    "browser",
+    "API",
+    "wrapper"
+  ],
+  "author": "Cyprien GLEPIN <betaweb34@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/betaWeb/intersectr/issues"
+  },
+  "homepage": "https://github.com/betaWeb/intersectr#readme"
+}

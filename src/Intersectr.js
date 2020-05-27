@@ -18,13 +18,13 @@ class Intersectr {
 	 * @static
 	 */
 	static buildThresholdsList(num_steps = 20) {
-		let thresholds = [0], i;
+		let thresholds = [0], i
 
 		for (i = 1.0; i <= num_steps; i++) {
-			thresholds.push(i / num_steps);
+			thresholds.push(i / num_steps)
 		}
 
-		return thresholds;
+		return thresholds
 	}
 
 	/**
@@ -49,9 +49,9 @@ class Intersectr {
 
 		try {
 			this.observer = new IntersectionObserver(
-				this._handleEntries, 
+				this._handleEntries,
 				this.options
-			);
+			)
 		} catch (e) {
 			throw e
 		}
@@ -79,7 +79,7 @@ class Intersectr {
 
 			this._observables.get(target)
 				.push(entry => {
-					entry.unobserve = this.unobserve.bind(this, target)
+					entry.unobserve = soft => this.unobserve(target, soft)
 					entry.intersected = entry.boundingClientRect.top < 0 || entry.boundingClientRect.left < 0
 
 					callback(entry)
@@ -94,15 +94,19 @@ class Intersectr {
 
 	/**
 	 * @param {Element|String} target
+	 * @param {Boolean} [soft=false]
 	 * 
 	 * @returns {Intersectr}
 	 */
-	unobserve(target) {
+	unobserve(target, soft = true) {
 		try {
 			target = this._getTargetElement(target)
 	
 			this.observer.unobserve(target)
-			this._observables.delete(target)
+
+			if (soft === false) {
+				this._observables.delete(target)
+			}
 
 			return this
 		} catch(e) {
@@ -169,12 +173,16 @@ class Intersectr {
 		return this.intersectBetween(target, [0, ratio], callback)
 	}
 
+	refresh() {
+		this._observables.forEach((_, target) => this.observer.observe(target))	
+	}
+
 	/**
 	 * @returns {void}
 	 */
 	destroy() {
 		this.observer.disconnect()
-		this.observe = undefined
+		this.observer = undefined
 	}
 
 	/**
