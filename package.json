@@ -1,6 +1,6 @@
 {
   "name": "@betaweb/intersectr",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An esay-to-use wrapper class over intersection observer API.",
   "main": "index.js",
   "scripts": {
