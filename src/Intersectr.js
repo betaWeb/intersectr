@@ -11,6 +11,23 @@ class Intersectr {
 	}
 
 	/**
+	 * @param {Number} num_steps 
+	 * 
+	 * @returns {Number[]}
+	 * 
+	 * @static
+	 */
+	static buildThresholdsList(num_steps = 20) {
+		let thresholds = [0], i;
+
+		for (i = 1.0; i <= num_steps; i++) {
+			thresholds.push(i / num_steps);
+		}
+
+		return thresholds;
+	}
+
+	/**
 	 * @param {Object.<String, *>} [options={}]
 	 */
 	constructor(options = {}) {
@@ -18,7 +35,7 @@ class Intersectr {
 		this._handleEntry = this._handleEntry.bind(this)
 
 		if (options.threshold === undefined) {
-			options.threshold = this._thresholdsList()
+			options.threshold = Intersectr.buildThresholdsList()
 		}
 
 		if (!Array.isArray(options.threshold)) {
@@ -61,7 +78,12 @@ class Intersectr {
 			}
 
 			this._observables.get(target)
-				.push((entry, observer) => callback(entry, observer))
+				.push(entry => {
+					entry.unobserve = this.unobserve.bind(this, target)
+					entry.intersected = entry.boundingClientRect.top < 0 || entry.boundingClientRect.left < 0
+
+					callback(entry)
+				})
 
 			this.observer.observe(target)
 			return this
@@ -109,20 +131,19 @@ class Intersectr {
 	 * @returns {Intersectr}
 	 */
 	intersectBetween(target, ratios, callback) {
+		const [min, max] = ratios
 		if (
-			!this.options.threshold.includes(ratios[0]) ||
-			!this.options.threshold.includes(ratios[1])
+			!this.options.threshold.includes(min) ||
+			!this.options.threshold.includes(max)
 		) {
 			throw new Error(`[Err] Intersectr.intersectBetween - ratios parameter array (${ratios.toString()}) must have values included on threshold option range (${this.options.threshold.toString()})`)
 		}
 
 		return this._intersect(target, entry => {
-			const intersecting = (
-				entry.intersectionRatio >= ratios[0] && 
-				entry.intersectionRatio <= ratios[1]
+			callback(
+				entry.intersectionRatio >= min && entry.intersectionRatio <= max, 
+				entry
 			)
-
-			callback(intersecting, entry)
 		})
 	}
 
@@ -182,10 +203,10 @@ class Intersectr {
 	 * 
 	 * @private
 	 */
-	_handleEntry(entry, observer) {
+	_handleEntry(entry) {
 		if (this._observables.has(entry.target)) {
 			this._observables.get(entry.target)
-				.forEach(callback => callback(entry, observer))
+				.forEach(callback => callback(entry))
 		}
 	}
 
@@ -206,25 +227,6 @@ class Intersectr {
 		}
 
 		return el
-	}
-
-	/**
-	 * @param {Number} steps 
-	 * 
-	 * @returns {Number[]}
-	 * 
-	 * @private
-	 */
-	_thresholdsList(steps = 20) {
-		var thresholds = [];
-
-		for (var i = 1.0; i <= steps; i++) {
-			thresholds.push(i / steps);
-		}
-
-		thresholds.push(0);
-
-		return thresholds;
 	}
 
 }

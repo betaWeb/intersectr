@@ -13,6 +13,7 @@
 			margin: 0;
 			padding: 0;
 			font-family: sans-serif;
+			background-color: #222;
 		}
 
 		.container {
@@ -23,10 +24,17 @@
 			display: flex;
 			width: 100%;
 			height: 500px;
-			border-bottom: 4px solid #222;
+			margin-bottom: 4px;
 			align-items: center;
 			justify-content: center;
+			opacity: 0.5;
+			transform: scale(.5);
 			transition: .3s;
+		}
+
+		.section.intersected {
+			opacity: 1;
+			transform: scale(1);
 		}
 
 		.section h2 {
@@ -65,11 +73,11 @@
 			const intersectr = new Intersectr()
 
 			document.querySelectorAll('.section').forEach(section => {
-				intersectr.intersectFrom(section, 0.7, (intersecting, entry) => {
-					if (intersecting) {
-						entry.target.style.opacity = 1
-						intersectr.unobserve(section)
-					} else entry.target.style.opacity = 0.5
+				intersectr.intersectFrom(section, .5, (intersecting, entry) => {
+					if (intersecting || entry.intersected) {
+						entry.target.classList.add('intersected')
+						entry.unobserve()
+					}
 				})
 			})
 		})
