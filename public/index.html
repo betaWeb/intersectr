@@ -107,17 +107,17 @@
 			background-color: #DE71C9;
 		}
 	</style>
-	<script type="text/javascript" src="../src/Intersectr.js" defer></script>
+	<script type="text/javascript" src="../dist/Intersectr.min.js" defer></script>
 	<script type="text/javascript" defer>
-		document.addEventListener('DOMContentLoaded', _ => {
+		document.addEventListener('DOMContentLoaded', function () {
 			// Variables
-			let intersectr = new Intersectr()
-			let sections = document.querySelectorAll('.section')
+			var intersectr = new Intersectr()
+			var sections = document.querySelectorAll('.section')
 
 			// Functions
-			const observeSections = _ => {
-				sections.forEach(section => {
-					intersectr.intersectFrom(section, .5, (intersecting, entry) => {
+			function observeSections () {
+				sections.forEach(function (section) {
+					intersectr.intersectFrom(section, .5, function (intersecting, entry) {
 						if (intersecting) {
 							entry.target.classList.add('intersected')
 							entry.unobserve()
@@ -125,19 +125,21 @@
 					})
 				})
 			}
-			const refresh = _ => {
-				sections.forEach(section => section.classList.remove('intersected'))
+			function refresh () {
+				sections.forEach(function (section) {
+					section.classList.remove('intersected')
+				})
 				intersectr.refresh()
 				window.scrollTo(0, 0)
 			}
 
 			// Events
-			document.getElementById('btn-refresh').addEventListener('click', e => {
+			document.getElementById('btn-refresh').addEventListener('click', function (e) {
 				e.preventDefault()
 				refresh()
 			})
 
-			document.getElementById('btn-switch').addEventListener('click', e => {
+			document.getElementById('btn-switch').addEventListener('click', function (e) {
 				e.preventDefault()
 				document.body.classList.toggle('horizontal-layout')
 				refresh()

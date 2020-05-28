@@ -9,10 +9,12 @@ You can find a simple demo [here](https://codepen.io/betaweb/pen/eYpaLLB).
 ## Getting started
 
 ### Installation
-You just have to import `Intersectr.js` class into your HTML page :
+You just have to import `Intersectr.min.js` class into your HTML page (you can find it on the `dist` folder of this repository) :
 ```html
-<script type="text/javascript" src="/path/to/Intersectr.js" defer></script>
+<script type="text/javascript" src="/path/to/Intersectr.min.js" defer></script>
 ```
+
+> Intersectr is compatible with IE11+ (it includes a polyfill of intersection-observer API) and is supported by all modern browsers.
 
 <br>
 
