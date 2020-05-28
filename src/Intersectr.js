@@ -173,8 +173,13 @@ class Intersectr {
 		return this.intersectBetween(target, [0, ratio], callback)
 	}
 
+	/**
+	 * @returns {Intersectr}
+	 */
 	refresh() {
 		this._observables.forEach((_, target) => this.observer.observe(target))	
+
+		return this
 	}
 
 	/**
